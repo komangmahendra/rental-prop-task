@@ -1,5 +1,5 @@
-import { error } from 'console';
 import { useConnectWallet } from '../../../hooks/useConnectWallet';
+import {  FiX } from 'react-icons/fi';
 
 declare global {
   interface Window {
@@ -10,38 +10,26 @@ declare global {
 export const ConnectWallet = () => {
   const { wallet, handleConnectWallet, handleDisconnectWallet, formatAddress } = useConnectWallet();
 
-
   return (
-    <div style={{ textAlign: 'center' }}>
+    <>
+    <div style={{ textAlign: 'left' }}>
       {wallet.address && (
         <div
           style={{
-            marginBottom: '10px',
-            fontSize: '14px',
-            color: '#666',
+            marginBottom: '8px',
+            fontSize: '10px',
+            color: '#fff',
           }}
         >
-          <div style={{ marginBottom: '5px' }}>
+          <div >
             Balance: <strong>{wallet.balance} ETH</strong>
           </div>
         </div>
       )}
 
-      {wallet.error && (
-        <div
-          style={{
-            maxWidth: '200px',
-            marginBottom: '10px',
-            fontSize: '12px',
-            color: '#d32f2f',
-          }}
-        >
-          {wallet.error}
-        </div>
-      )}
-
+  
       {wallet.address ? (
-        <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             disabled={wallet.isConnecting}
             style={{
@@ -60,16 +48,20 @@ export const ConnectWallet = () => {
           <button
             onClick={handleDisconnectWallet}
             style={{
-              padding: '8px 16px',
+              padding: '8px 12px',
               backgroundColor: '#f44336',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
-              fontSize: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '14px',
             }}
+            title="Disconnect wallet"
           >
-            Disconnect
+            <FiX size={16} />
           </button>
         </div>
       ) : (
@@ -90,5 +82,6 @@ export const ConnectWallet = () => {
         </button>
       )}
     </div>
+    </>
   );
 }

@@ -1,0 +1,33 @@
+/* Override default toast font size */
+.Toastify__toast {
+  font-size: 14px;
+  padding: 14px;
+}
+
+/* For specific toast types */
+.Toastify__toast--error {
+  font-size: 14px;
+}
+
+.Toastify__toast--success {
+  font-size: 14px;
+}
+
+.Toastify__toast--info {
+  font-size: 14px;
+}
+
+.Toastify__toast--warning {
+  font-size: 14px;
+}
+
+/* Toast body text */
+.Toastify__toast-body {
+  font-size: 14px;
+  padding: 0;
+}
+
+/* Toast close button */
+.Toastify__close-button {
+  font-size: 14px;
+}

@@ -17,25 +17,24 @@ const Navbar = () => {
       <nav className={navHeight ? "show nav" : "nav"}>
         <div className="logo" onClick={()=> gotoHome()}>PROPERTY RENTALS</div>
           <div style={{display: 'flex', alignItems: "center", gap: '32px'}}>
-        <ul>
-          <li>
-            <Link to={"/aboutus"}>ABOUT US</Link>
-          </li>
-          <li>
-            <Link to={"/villas"}>VILLAS</Link>
-          </li>
-          <li>
-            <Link to={"/contact"}>CONTACT</Link>
-          </li>
-        </ul>
+            <ul>
+              <li>
+                <Link to={"/aboutus"}>ABOUT US</Link>
+              </li>
+              <li>
+                <Link to={"/villas"}>VILLAS</Link>
+              </li>
+              <li>
+                <Link to={"/contact"}>CONTACT</Link>
+              </li>
+            </ul>
 
       
-        <ConnectWallet />
-       
-        <RxHamburgerMenu
-          className="hamburger"
-          onClick={() => setNavHeight(!navHeight)}
-        />
+            <ConnectWallet />
+            <RxHamburgerMenu
+              className="hamburger"
+              onClick={() => setNavHeight(!navHeight)}
+            />
 
         </div>
       </nav>

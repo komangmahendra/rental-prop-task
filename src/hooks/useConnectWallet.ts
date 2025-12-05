@@ -1,11 +1,20 @@
 import {useState, useEffect} from 'react';
+import { toast } from 'react-toastify';
 
 interface WalletState {
   address: string | null;
   balance: string | null;
   isConnecting: boolean;
   error: string | null;
-  errorCode?: "METAMASK_NOT_INSTALLED" | "CONNECTION_REJECTED" | "UNKNOWN_ERROR" | "FETCH_BALANCE_FAILED" | ""
+  errorCode?: "METAMASK_NOT_INSTALLED" | "CONNECTION_REJECTED" | "UNKNOWN_ERROR" | "FETCH_BALANCE_FAILED" | "REQ_PERMISSION_PENDING" | "";
+}
+
+const errorMessages = {
+  METAMASK_NOT_INSTALLED: 'MetaMask is not installed. Please install it to continue.',
+  CONNECTION_REJECTED: 'Connection request was rejected by the user.',
+  REQ_PERMISSION_PENDING: 'A connection request is already pending. Please check your MetaMask extension.',
+  FETCH_BALANCE_FAILED: 'Failed to fetch wallet balance.',
+  UNKNOWN_ERROR: 'An unknown error occurred. Please try again.',
 }
 
 export const useConnectWallet = () => {
@@ -91,17 +100,14 @@ export const useConnectWallet = () => {
       setWallet((prev) => ({
         ...prev,
         error: 'Failed to fetch balance',
+        errorCode: 'FETCH_BALANCE_FAILED'
       }));
     }
   };
 
   const handleConnectWallet = async () => {
     if (typeof window === 'undefined' || !window.ethereum) {
-      setWallet((prev) => ({
-        ...prev,
-        error: 'MetaMask is not installed. Please install it to continue.',
-        
-      }));
+      toast.error('MetaMask is not installed. Please install it to continue.');
       return;
     }
 
@@ -117,14 +123,22 @@ export const useConnectWallet = () => {
         ...prev,
         address,
         isConnecting: false,
+        error: null,
+        errorCode: '',
       }));
 
       await fetchBalance(address);
     } catch (err: any) {
+      console.log(err)
+      const errorCode = err.code === -32002 ? 'REQ_PERMISSION_PENDING' :
+        err.code === 4001 ? 'CONNECTION_REJECTED' : 'UNKNOWN_ERROR';
+      const errorMessage = errorMessages[errorCode as keyof typeof errorMessages];
+      
+      toast.error(errorMessage);
+      
       setWallet((prev) => ({
         ...prev,
         isConnecting: false,
-        error: err?.message || 'Failed to connect wallet',
       }));
     }
   };
